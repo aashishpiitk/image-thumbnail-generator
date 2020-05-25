@@ -1,11 +1,6 @@
 import createError from 'http-errors';
-import express, {
-	json,
-	urlencoded,
-} from 'express';
-import {
-	join
-} from 'path';
+import express, { json, urlencoded } from 'express';
+import { join } from 'path';
 import cookieParser from 'cookie-parser';
 import logger from 'morgan';
 import passport from 'passport';
@@ -23,7 +18,7 @@ app.use(
 	}),
 );
 // view engine setup
-app.set('views', join(__dirname, 'views'));
+app.set('views', join(__dirname, './views'));
 app.set('view engine', 'jade');
 
 app.use(logger('dev'));

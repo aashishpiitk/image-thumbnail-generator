@@ -17,8 +17,6 @@ var _isImageUrl2 = _interopRequireDefault(_isImageUrl);
 
 var _jsonwebtoken = require('jsonwebtoken');
 
-var _jsonwebtoken2 = _interopRequireDefault(_jsonwebtoken);
-
 var _imagemagick = require('imagemagick');
 
 var _path = require('path');
@@ -45,10 +43,10 @@ var download = function download(url, path, callback) {
 
 function returnThumbnail(req, res, next) {
   ext = (0, _path.extname)(req.body.imageUrl);
-  _jsonwebtoken2.default.verify(req.body.username, 'secret_key', function (err, username) {
+  (0, _jsonwebtoken.verify)(req.body.token, 'secret_key', function (err, username) {
     if (err) {
       res.status(400).json({
-        message: "User not authorized",
+        message: 'User not authorized',
         authorized: false
       });
     } else {
@@ -57,19 +55,25 @@ function returnThumbnail(req, res, next) {
         console.log('ext' + ext);
         var now = new Date();
         var d = now.getMilliseconds();
-        download(req.body.imageUrl, '..images/actual/' + d + ext, function () {
+        download(req.body.imageUrl, (0, _path.join)(__dirname + '../../../images/actual/') + d + ext, function () {
           console.log('image downloaded');
 
           (0, _imagemagick.resize)({
-            srcPath: '..images/actual/' + d + ext,
-            dstPath: '../images/resized/' + d + 'thumbnail' + ext,
+            srcPath: (0, _path.join)(__dirname + '../../../images/actual/') + d + ext,
+            dstPath: (0, _path.join)(__dirname + '../../../images/resized/') + d + 'thumbnail' + ext,
             width: 50,
             height: 50
           }, function (err, stdout, stderr) {
-            // if (err ) throw error;
-            res.status(200).json({
+            if (err) {
+              res.status(404).json({
+                message: 'error in resizing the image'
+              });
+            }
+            res.status(200);
+            res.sendFile((0, _path.join)(__dirname + '../../../images/resized/') + d + 'thumbnail' + ext);
+            res.json({
               converted: true,
-              imagePath: 'https:' + '://' + req.get('host') + '/images/resized' + d + 'thumbnail' + ext,
+              imagePath: 'http' + '://' + req.get('host') + '/images/resized/' + d + 'thumbnail' + ext,
               authorized: true
             });
             console.log('resized image to fit within 20x50px');
