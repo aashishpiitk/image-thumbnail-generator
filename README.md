@@ -5,7 +5,7 @@
 Run this command before **npm run dev** or **npm start**
 
 ```
-npm install -g swagger-ui-express nodemon eslint swagger
+npm install -g swagger-ui-express nodemon eslint swagger express
 ```
 
 ## ES6 is used throughout the code and Babel is used to transpile the code to Commonjs format
