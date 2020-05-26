@@ -11,28 +11,26 @@ import {
 } from 'express-validator';
 
 exports.login = [
-	body('username', 'Username required.')
+	body('username', 'Username required.(must be 3 to 30 characters long')
 	.isLength({
 		min: 3,
+		max: 30
 	})
+	.isString()
 	.trim(),
-	body('password', 'Password must be atleast six characters long').isLength({
+	body('password', 'Password must be atleast 6 to 50 characters long').isLength({
 		min: 6,
+		max: 50
 	}),
 
 	(req, res, next) => {
-		console.log(req.body.username);
 		const errors = validationResult(req);
-		console.log(req.body.username);
 		if (!errors.isEmpty()) {
 			res.status(400).send({
 				errors: errors.array(),
 			});
 		} else {
-			console.log(req.body.username);
 			const username = req.body.username;
-			//console.log(usernames);
-
 			const token = sign({
 				username: username
 			}, 'secret_key', {

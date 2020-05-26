@@ -1,24 +1,33 @@
 import createError from 'http-errors';
-import express, { json, urlencoded } from 'express';
-import { join } from 'path';
+import express, {
+	json,
+	urlencoded
+} from 'express';
+import {
+	join
+} from 'path';
 import cookieParser from 'cookie-parser';
 import logger from 'morgan';
 import passport from 'passport';
 import bodyParser from 'body-parser';
+import swaggerJsDoc from 'swagger-jsdoc';
+import swaggerUi from 'swagger-ui-express';
 
 import imagesRouter from './routes/images';
 import usersRouter from './routes/users';
-//var imageRouter = require('./routes/images').default.default.default;
 
 var app = express();
+
+//configuring the body parser
 app.use(bodyParser.json());
 app.use(
 	bodyParser.urlencoded({
 		extended: true,
-	}),
+	})
 );
+
 // view engine setup
-app.set('views', join(__dirname, './views'));
+app.set('views', join(__dirname, '/views'));
 app.set('view engine', 'jade');
 
 app.use(logger('dev'));
@@ -26,32 +35,58 @@ app.use(json());
 app.use(
 	urlencoded({
 		extended: false,
-	}),
+	})
 );
 app.use(cookieParser());
 
 //serving the static files
-//app.use(express.static(join(__dirname, 'public')));
+app.use('/images', express.static(join(__dirname, '../images/')));
 
+//configuring the cors headers
 console.log(join(__dirname, '../images/resized'));
 app.use((req, res, next) => {
 	res.setHeader('Access-Control-Allow-Origin', '*'),
 		res.setHeader(
 			'Access-Control-Allow-Headers',
-			'Origin,X-Requested-With,Content-Type,Accept',
+			'Origin,X-Requested-With,Content-Type,Accept'
 		),
 		res.setHeader(
 			'Access-Control-Allow-Methods',
-			'GET,POST,PATCH,PUT,DELETE,OPTIONS,authorization',
+			'GET,POST,PATCH,PUT,DELETE,OPTIONS,authorization'
 		),
 		next();
 });
 
-app.use('/images', express.static(join(__dirname, '../images/')));
+//swagger configuration
+const swaggerOptions = {
+	swaggerDefinition: {
+		info: {
+			title: 'Image-Resizer-API',
+			description: 'API Information',
+		},
+		servers: ['http://localhost:3000'],
+	},
+	apis: ['./app.js', `${__dirname}/routes/*.js`],
+};
 
-// app.get('/report/:chart_id/:user_id', function (req, res) {
-//     // res.sendFile(filepath);
-// });
+
+//const swaggerDocs = swaggerJsDoc(swaggerOptions);
+import {
+	swaggerDoc
+} from './swagger_config';
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDoc));
+//app.use('/api-docs', express.static(join(__dirname, '../')));
+//Routes
+/**
+ * @swagger
+ *  /users/login:
+ * 	post:
+ *  responses:
+ *  200:
+ *      description: 
+ * 
+ *
+ */
 //configuring the routers
 app.use('/image', imagesRouter);
 app.use('/users', usersRouter);
