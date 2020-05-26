@@ -38,6 +38,8 @@ var _swaggerUiExpress = require('swagger-ui-express');
 
 var _swaggerUiExpress2 = _interopRequireDefault(_swaggerUiExpress);
 
+var _swagger_config = require('./swagger_config');
+
 var _images = require('./routes/images');
 
 var _images2 = _interopRequireDefault(_images);
@@ -45,8 +47,6 @@ var _images2 = _interopRequireDefault(_images);
 var _users = require('./routes/users');
 
 var _users2 = _interopRequireDefault(_users);
-
-var _swagger_config = require('./swagger_config');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -79,32 +79,8 @@ app.use(function (req, res, next) {
 });
 
 //swagger configuration
-var swaggerOptions = {
-	swaggerDefinition: {
-		info: {
-			title: 'Image-Resizer-API',
-			description: 'API Information'
-		},
-		servers: ['http://localhost:3000']
-	},
-	apis: ['./app.js', __dirname + '/routes/*.js']
-};
-
-//const swaggerDocs = swaggerJsDoc(swaggerOptions);
-
 app.use('/api-docs', _swaggerUiExpress2.default.serve, _swaggerUiExpress2.default.setup(_swagger_config.swaggerDoc));
-//app.use('/api-docs', express.static(join(__dirname, '../')));
-//Routes
-/**
- * @swagger
- *  /users/login:
- * 	post:
- *  responses:
- *  200:
- *      description: 
- * 
- *
- */
+
 //configuring the routers
 app.use('/image', _images2.default);
 app.use('/users', _users2.default);

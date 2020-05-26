@@ -1,5 +1,13 @@
 # Stateless Microservice In Nodejs for creating image thumbnails
 
+## Important Note
+
+Run this command before **npm run dev** or **npm start**
+
+```
+npm install -g swagger-ui-express nodemon eslint swagger
+```
+
 ## ES6 is used throughout the code and Babel is used to transpile the code to Commonjs format
 
 The following functionalities are implemented in
@@ -56,7 +64,21 @@ Run the command below from the application's root directory.
 npm run test
 ```
 
-# Testing the API routes.
+# Swagger Docs
+
+The API documentation is available in form of swagger docs at the end point
+
+```
+http://localhost:3000/api-docs/
+```
+
+## Note
+
+### You can use **_try it out_** feature in each of the endpoints in the docs to perform the request to the server and fetch the response
+
+# Testing the API routes
+
+## (Preferbably with Postman)
 
 Since this is mostly an API with post and patch requests, testing will be done with [Postman](https://www.getpostman.com/)
 
@@ -136,11 +158,11 @@ Unit testing is done using **_mochai = mocha + chai(asserion)_**
 
 ### The ES6 code is not compatible with the **LTS version of nodejs** so I used **_Babel_** to transpile the **_ES6_** code to **_CommonJs_** format
 
+The tranpiled code can be obtained in a directory named **dist** in the root directory using the command **_npm run build_**
+
 ## API Testing
 
 ### Is done using Postman
-
-The tranpiled code can be obtained in a directory named **dist** in the root directory using the command **_npm run build_**
 
 ## Built With
 

@@ -17,21 +17,15 @@ import {
 } from 'path';
 var ext;
 
-// var download = (uri, filename, callback) => {
+//Usage instructions for download() function
+// const url = 'https://homepages.cae.wisc.edu/~ece533/images/airplane.png'
+// const path = '../images/image.png'
 
-// }
 const download = (url, path, callback) => {
   head(url, (err, res, body) => {
     request(url).pipe(createWriteStream(path)).on('close', callback);
   });
 };
-
-// const url = 'https://homepages.cae.wisc.edu/~ece533/images/airplane.png'
-// const path = '../images/image.png'
-
-// download(url, path, () => {
-//   console.log('✅ Done!')
-// })
 
 export function returnThumbnail(req, res, next) {
   ext = extname(req.body.imageUrl);
@@ -75,14 +69,6 @@ export function returnThumbnail(req, res, next) {
                   });
                 }
                 res.status(200);
-                res.sendFile(
-                  join(
-                    __dirname + '../../../images/resized/',
-                  ) +
-                  d +
-                  'thumbnail' +
-                  ext,
-                );
                 res.json({
                   converted: true,
                   imagePath: 'http' +
@@ -109,7 +95,3 @@ export function returnThumbnail(req, res, next) {
     }
   });
 }
-
-// const sendFiles = () => {
-
-// }

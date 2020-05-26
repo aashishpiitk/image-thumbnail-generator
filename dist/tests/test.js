@@ -84,7 +84,7 @@ describe('image thumbnail microservice', function () {
 		});
 
 		it('It should accept a public image and return the link to the resized image', function (done) {
-			this.timeout(10000);
+			this.timeout(30000);
 			_chai2.default.request(_app2.default).post('/image/generate-thumbnail').send({
 				token: token,
 				imageUrl: imageUrl

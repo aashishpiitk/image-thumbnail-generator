@@ -1,4 +1,8 @@
-import { equal, to, expect } from 'chai';
+import {
+	equal,
+	to,
+	expect
+} from 'chai';
 import chai from 'chai';
 import chaiHttp from 'chai-http';
 chai.use(chaiHttp);
@@ -88,7 +92,7 @@ describe('image thumbnail microservice', () => {
 		});
 
 		it('It should accept a public image and return the link to the resized image', function (done) {
-			this.timeout(10000);
+			this.timeout(30000);
 			chai.request(app)
 				.post('/image/generate-thumbnail')
 				.send({

@@ -25,21 +25,15 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var ext;
 
-// var download = (uri, filename, callback) => {
+//Usage instructions for download() function
+// const url = 'https://homepages.cae.wisc.edu/~ece533/images/airplane.png'
+// const path = '../images/image.png'
 
-// }
 var download = function download(url, path, callback) {
   (0, _request.head)(url, function (err, res, body) {
     (0, _request2.default)(url).pipe((0, _fs.createWriteStream)(path)).on('close', callback);
   });
 };
-
-// const url = 'https://homepages.cae.wisc.edu/~ece533/images/airplane.png'
-// const path = '../images/image.png'
-
-// download(url, path, () => {
-//   console.log('✅ Done!')
-// })
 
 function returnThumbnail(req, res, next) {
   ext = (0, _path.extname)(req.body.imageUrl);
@@ -70,7 +64,6 @@ function returnThumbnail(req, res, next) {
               });
             }
             res.status(200);
-            res.sendFile((0, _path.join)(__dirname + '../../../images/resized/') + d + 'thumbnail' + ext);
             res.json({
               converted: true,
               imagePath: 'http' + '://' + req.get('host') + '/images/resized/' + d + 'thumbnail' + ext,
@@ -87,7 +80,3 @@ function returnThumbnail(req, res, next) {
     }
   });
 }
-
-// const sendFiles = () => {
-
-// }

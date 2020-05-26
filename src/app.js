@@ -12,6 +12,9 @@ import passport from 'passport';
 import bodyParser from 'body-parser';
 import swaggerJsDoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
+import {
+	swaggerDoc
+} from './swagger_config';
 
 import imagesRouter from './routes/images';
 import usersRouter from './routes/users';
@@ -58,35 +61,8 @@ app.use((req, res, next) => {
 });
 
 //swagger configuration
-const swaggerOptions = {
-	swaggerDefinition: {
-		info: {
-			title: 'Image-Resizer-API',
-			description: 'API Information',
-		},
-		servers: ['http://localhost:3000'],
-	},
-	apis: ['./app.js', `${__dirname}/routes/*.js`],
-};
-
-
-//const swaggerDocs = swaggerJsDoc(swaggerOptions);
-import {
-	swaggerDoc
-} from './swagger_config';
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDoc));
-//app.use('/api-docs', express.static(join(__dirname, '../')));
-//Routes
-/**
- * @swagger
- *  /users/login:
- * 	post:
- *  responses:
- *  200:
- *      description: 
- * 
- *
- */
+
 //configuring the routers
 app.use('/image', imagesRouter);
 app.use('/users', usersRouter);
